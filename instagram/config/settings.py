@@ -18,6 +18,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_DIR = os.path.dirname(BASE_DIR)
 CONFIG_SECRET_DIR = os.path.join(ROOT_DIR, '.config_secret')
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+
+
 f = open(os.path.join(CONFIG_SECRET_DIR, 'settings_common.json'))
 config_secret_common_str = f.read()
 f.close()
