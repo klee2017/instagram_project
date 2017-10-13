@@ -3,7 +3,7 @@ from django.shortcuts import render
 from .models import Post
 
 
-def Post_list(request):
+def post_list(request):
     posts = Post.objects.all()
     context = {
         'posts': posts,
