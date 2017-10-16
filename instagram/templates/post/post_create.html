@@ -1,0 +1,11 @@
+<div>
+    <form method='POST' action='' enctype="multipart/form-data">
+        <!--form은 항상 post로 전송해야 함-->
+        {% csrf_token %}
+        <!--<table>-->
+        <!--{{ form.as_table }}-->
+        <!--</table>-->
+        <input type="file" name="photo">
+        <button>글쓰기</button>
+    </form>
+</div>

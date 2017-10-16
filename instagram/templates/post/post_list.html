@@ -1,14 +1,15 @@
 <!--1. 사진 업로드하기-->
 <!--2. 사진에 댓글달기-->
 
-<form method='post' action='' enctype="multipart/form-data">
-	{% csrf_token %}
-	<table>
-		{{ form.as_table }}
-	</table>
-    <input type="file" name="file">
-	<input type="submit" value="submit">
-</form>
+<!--<form method='post' action='' enctype="multipart/form-data">-->
+    <!--&lt;!&ndash;form은 항상 post로 전송해야 함&ndash;&gt;-->
+	<!--{% csrf_token %}-->
+	<!--<table>-->
+		<!--{{ form.as_table }}-->
+	<!--</table>-->
+    <!--<input type="file" name="file">-->
+	<!--<input type="submit" value="submit">-->
+<!--</form>-->
 
 <div>
     {% for post in posts %}
