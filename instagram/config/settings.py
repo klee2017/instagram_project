@@ -21,8 +21,11 @@ CONFIG_SECRET_DIR = os.path.join(ROOT_DIR, '.config_secret')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+# STATIC_URL로의 요청은 아래 경로의 목록에서 파일을 찾아 리턴
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
+
+STATICFILES_DIR = [STATIC_DIR,]
 
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 

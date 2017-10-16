@@ -2,13 +2,13 @@
 
 {% block content %}
 <div>
-    <form method='POST' action='' enctype="multipart/form-data" name="photo">
+    <form method="POST" action="">
         <!--form은 항상 post로 전송해야 함-->
         {% csrf_token %}
         <!--<table>-->
         {{ form }}
         <!--</table>-->
-        <button>글쓰기</button>
+        <button class="btn btn-block btn-primary">글쓰기</button>
     </form>
 </div>
 {% endblock %}

@@ -1,7 +1,8 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 
-from .models import Post
+from .forms import PostForm, CommentForm
+from .models import Post, PostComment
 
 
 def post_list(request):
@@ -13,13 +14,52 @@ def post_list(request):
 
 
 def post_create(request):
-    photo = request.FILES.get('photo')
-    if request.method == 'POST' and photo:
-        photo = request.FILES['photo']
-        post = Post.objects.create(photo=photo)
-        return HttpResponse(f'<img src="{post.photo.url}">')
+    if request.method == 'POST':
+        # POST 요청의 경우 PostForm 인스턴스 생성 과정에서 request.POST, request.FILES를 사용.
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            print(form.cleaned_data)
+            post = Post.objects.create(
+                photo=form.cleaned_data['photo']
+            )
+            # photo = request.FILES['photo']
+            # post = Post.objects.create(photo=photo)
+            return HttpResponse(f'<img src="{post.photo.url}">')
     else:
-        return render(request, 'post/post_create.html')
+        # get 요청의 경우 빈 PostForm 인스턴스를 생성해서 템플릿에 전달
+        form = PostForm()
+
+    # get 요청에서 이 부분이 무조건 실행
+    # POST 요청에서 is_valid를 통과하지 못하면 이 부분이 실행
+    context = {
+        'form': form,
+    }
+    return render(request, 'post/post_create.html', context)
+
+
+def post_detail(request, post_pk):
+    post = get_object_or_404(Post, pk=post_pk)
+    comment_form = CommentForm()
+    context = {
+        'post': post,
+        'comment_form': comment_form,
+    }
+    return render(request, 'post/post_detail.html', context)
+
+
+def comment_create(request, post_pk):
+    post = get_object_or_404(Post, pk=post_pk)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = PostComment.objects.create(post=post, content=form.cleaned_data['content'])
+            return redirect('post_detail', pk=post_pk)
+    else:
+        form = CommentForm()
+    context = {'form': form, }
+    return render(request, 'post/post_create.html', context)
+
+    # PostComment = Post.objects.get(pk=post_pk)
 
 # def handle_uploaded_file(f):
 #     with open('some/file/name.txt', 'wb+') as destination:
