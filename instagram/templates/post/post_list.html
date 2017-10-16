@@ -4,23 +4,39 @@
 <!--2. 사진에 댓글달기-->
 
 <!--<form method='post' action='' enctype="multipart/form-data">-->
-    <!--&lt;!&ndash;form은 항상 post로 전송해야 함&ndash;&gt;-->
-	<!--{% csrf_token %}-->
-	<!--<table>-->
-		<!--{{ form.as_table }}-->
-	<!--</table>-->
-    <!--<input type="file" name="file">-->
-	<!--<input type="submit" value="submit">-->
+<!--&lt;!&ndash;form은 항상 post로 전송해야 함&ndash;&gt;-->
+<!--{% csrf_token %}-->
+<!--<table>-->
+<!--{{ form.as_table }}-->
+<!--</table>-->
+<!--<input type="file" name="file">-->
+<!--<input type="submit" value="submit">-->
 <!--</form>-->
 
 {% block content %}
 <div>
+    <a href="#last">끝으로</a>
     {% for post in posts %}
-    <!--<img src="http://127.0.0.1:8000/media/{{ post.photo }}" alt="">-->
-    <a href="{% url 'post_detail' post_pk=post.pk %}">
-    <img src="{{ post.photo.url }}" alt="">
-    </a>
+    <div id="post-{{ post.pk }}">
+        <!--<img src="http://127.0.0.1:8000/media/{{ post.photo }}" alt="">-->
+        <a href="{% url 'post_detail' post_pk=post.pk %}">
+            <img src="{{ post.photo.url }}" alt="">
+        </a>
+
+        <form action="{% url 'comment_create' post_pk=post.pk %}?next=/post/#post-comments-{{ post.pk }}" method="POST">
+            {% csrf_token %}
+            {{ comment_form }}
+            <button class="btn btn-primary btn-block">댓글달기</button>
+        </form>
+
+        <ul id="post-comments-{{ post.pk }}">
+            {% for comment in post.comments.all %}
+            <li>{{ comment.content }}</li>
+            {% endfor %}
+        </ul>
+    </div>
     {% endfor %}
+    <div id="last">끝</div>
 </div>
 
 {% endblock %}
