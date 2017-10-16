@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 
 from .models import Post
 
@@ -12,10 +13,12 @@ def post_list(request):
 
 
 def post_create(request):
-    if request.method == 'POST':
-        print(request.POST)
-        print(request.FILES)
-    elif request.method == 'GET':
+    photo = request.FILES.get('photo')
+    if request.method == 'POST' and photo:
+        photo = request.FILES['photo']
+        post = Post.objects.create(photo=photo)
+        return HttpResponse(f'<img src="{post.photo.url}">')
+    else:
         return render(request, 'post/post_create.html')
 
 # def handle_uploaded_file(f):
