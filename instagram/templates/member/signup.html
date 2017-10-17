@@ -1,5 +1,13 @@
-<form action="POST">
-    {% csrf_token %}
-    <input type="text" name="username">
-    <input type="text" name="password">
-</form>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="signup">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <label>Username<input type="text" name="username"></label>
+        <label>Password<input type="password" name="password"></label>
+
+        <button class="btn btn-primary btn-block">회원가입</button>
+    </form>
+</div>
+{% endblock %}
