@@ -1,5 +1,7 @@
-<form action="POST">
-    {% csrf_token %}
-    <input type="text" name="username">
-    <input type="text" name="password">
-</form>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="login-container">
+	{% include 'include/form-horizontal.html' with form=login_form submit_text='로그인' %}
+</div>
+{% endblock %}

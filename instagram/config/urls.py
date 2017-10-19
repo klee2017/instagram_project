@@ -18,10 +18,8 @@ from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
 
-from post import views as post_views
 from member import views as member_views
-
-
+from post import views as post_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -32,8 +30,8 @@ urlpatterns = [
     url(r'^post/(?P<post_pk>\d+)/comment/create/$', post_views.comment_create, name='comment_create'),
 
     url(r'^member/signup/$', member_views.signup, name='signup'),
-    # url(r'^member/login/$', views.login, name='login'),
-    # url(r'^member/logout/$', views.logout, name='logout'),
+    url(r'^member/login/$', member_views.login, name='login'),
+    url(r'^member/logout/$', member_views.logout, name='logout'),
 ]
 urlpatterns += static(
     settings.MEDIA_URL,

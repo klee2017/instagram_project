@@ -1,6 +1,6 @@
 {% load static %}
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -8,11 +8,24 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Instagram</title>
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/post.css' %}">
 </head>
 <body>
-<h1>Instagram</h1>
-<hr>
-{% block content %}
-{% endblock %}
+<div class="container">
+    <a href="{% url 'post_list' %}"><h1>Instagram</h1></a>
+    <p class="text-right">
+        {% if user.is_authenticated %}
+        {{ user.username }} 님, 환영합니다!
+        <a href="" class="btn btn-xs btn-primary">[로그아웃하기]</a>
+        {% else %}
+        <a href="{% url 'login' %}">
+            log in
+        </a>
+        {% endif %}
+    </p>
+    <hr>
+    {% block content %}
+    {% endblock %}
+</div>
 </body>
 </html>
