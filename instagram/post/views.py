@@ -58,7 +58,7 @@ def comment_create(request, post_pk):
             next = request.GET.get('next')
             if next:
                 return redirect(next)
-            return redirect('post_detail', post_pk=post_pk)
+            return redirect('post:post_detail', post_pk=post_pk)
     else:
         form = CommentForm()
     context = {'form': form, }
