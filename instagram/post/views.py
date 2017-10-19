@@ -10,18 +10,21 @@ def post_list(request):
     comment_form = CommentForm()
     context = {
         'posts': posts,
-        'comment_form':comment_form,
+        'comment_form': comment_form,
     }
     return render(request, 'post/post_list.html', context)
 
 
 def post_create(request):
+    if not request.user.is_authenticated:
+        return redirect('member:login')
+
     if request.method == 'POST':
         # POST 요청의 경우 PostForm 인스턴스 생성 과정에서 request.POST, request.FILES를 사용.
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            print(form.cleaned_data)
             post = Post.objects.create(
+                author=request.user,
                 photo=form.cleaned_data['photo']
             )
             # photo = request.FILES['photo']
@@ -63,21 +66,3 @@ def comment_create(request, post_pk):
         form = CommentForm()
     context = {'form': form, }
     return render(request, 'post/post_create.html', context)
-
-    # PostComment = Post.objects.get(pk=post_pk)
-
-# def handle_uploaded_file(f):
-#     with open('some/file/name.txt', 'wb+') as destination:
-#         for chunk in f.chunks():
-#             destination.write(chunk)
-#
-#
-# def upload_file(request):
-#     if request.method == 'POST':
-#         form = UploadFileForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             handle_uploaded_file(request.FILES['file'])
-#             return HttpResponseRedirect('/success/url/')
-#     else:
-#         form = UploadFileForm()
-#     return render(request, 'upload.html', {'form': form})
