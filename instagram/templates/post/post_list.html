@@ -13,30 +13,11 @@
 <!--<input type="submit" value="submit">-->
 <!--</form>-->
 
+
 {% block content %}
 <div>
-    <a href="#last">끝으로</a>
-    {% for post in posts %}
-    <div id="post-{{ post.pk }}">
-        <!--<img src="http://127.0.0.1:8000/media/{{ post.photo }}" alt="">-->
-        <a href="{% url 'post:post_detail' post_pk=post.pk %}">
-            <img src="{{ post.photo.url }}" alt="">
-        </a>
-
-        <form action="{% url 'post:comment_create' post_pk=post.pk %}?next=/post/#post-comments-{{ post.pk }}" method="POST">
-            {% csrf_token %}
-            {{ comment_form }}
-            <button class="btn btn-primary btn-block">댓글달기</button>
-        </form>
-
-        <ul id="post-comments-{{ post.pk }}">
-            {% for comment in post.comments.all %}
-            <li>{{ comment.content }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-    {% endfor %}
-    <div id="last">끝</div>
+	{% for post in posts %}
+		{% include 'include/post.html' with post_type='list' %}
+	{% endfor %}
 </div>
-
 {% endblock %}

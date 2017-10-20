@@ -1,19 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div>
-    {% if post.photo %}
-    <img src="{{ post.photo.url }}" alt="">
-    {% endif %}
-
-    <form action="{% url 'post:comment_create' post_pk=post.pk %}" method="POST">
-        {% csrf_token %}
-        {{ comment_form }}
-        <button class="btn-primary btn btn-block">작성</button>
-    </form>
-
-    {% for comment in post.comments.all %}
-    <li>{{ comment.content }}</li>
-    {% endfor %}
+<div class="post-detail">
+	{% include 'include/post.html' with post_type='detail' %}
 </div>
 {% endblock %}

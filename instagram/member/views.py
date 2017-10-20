@@ -1,4 +1,4 @@
-from django.contrib.auth import get_user_model, logout as django_logout
+from django.contrib.auth import (get_user_model, login as django_login, logout as django_logout)
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -11,6 +11,7 @@ User = get_user_model()
 
 def login(request):
     if request.method == 'POST':
+        print(request.POST)
         form = LoginForm(request.POST)
         if form.is_valid():
             form.login(request)
@@ -20,7 +21,7 @@ def login(request):
     else:
         form = LoginForm()
     context = {
-        'form': form,
+        'login_form': form,
     }
     return render(request, 'member/login.html', context)
 
@@ -32,13 +33,14 @@ def logout(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = SignupForm(request.POST)
+        form = SignupForm(request.POST, request.FILES)
         if form.is_valid():
-            user = form.signup()
-            return HttpResponse(f'{user.username}, {user.password}')
+            user = form.save()
+            django_login(request, user)
+            return redirect('post:post_list')
     else:
         form = SignupForm()
     context = {
-        'form': form,
+        'signup_form': form,
     }
     return render(request, 'member/signup.html', context)

@@ -18,11 +18,14 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
 
+from .views import index
 from member import views as member_views
-from post import views as post_views
+from post import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+
+    url(r'^$', index, name='index'),
     url(r'^post/', include('post.urls', namespace='post')),
     url(r'^member/', include('member.urls', namespace='member')),
 ]
