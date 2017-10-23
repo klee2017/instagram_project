@@ -27,6 +27,28 @@ class User(AbstractUser):
         verbose_name = '사용자'
         verbose_name_plural = f'{verbose_name} 목록'
 
+    def follow_toggle(self, user):
+        if not isinstance(user, User):
+            raise ValueError('"user" argument must be User instance!')
+
+        relation, relation_created = self.following_user_relations.get_or_create(to_user=user)
+        if relation_created:
+            return True
+        relation.delete()
+        return False
+
+        # if user in self.following_users.all():
+        #     Relation.objects.filter(
+        #         from_user=self,
+        #         to_user=user,
+        #     ).delete()
+        # else:
+        #     Relation.objects.create(
+        #         from_user=self,
+        #         to_user=user,
+        #     )
+        #     self.following_user_relations.create(to_user=user)
+
 
 # REQUIRED_FIELDS = AbstractUser.REQUIRED_FIELDS + ['age']
 
