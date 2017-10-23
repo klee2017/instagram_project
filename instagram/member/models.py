@@ -19,7 +19,7 @@ class User(AbstractUser):
     #   followers
     # 내가 follow한 사람
     #   followed_users
-    followed_users = models.ManyToManyField('self', symmetrical=False, through='Relation', related_name='followers')
+    following_users = models.ManyToManyField('self', symmetrical=False, through='Relation', related_name='followers')
 
     objects = UserManager()
 
@@ -31,6 +31,9 @@ class User(AbstractUser):
 # REQUIRED_FIELDS = AbstractUser.REQUIRED_FIELDS + ['age']
 
 class Relation(models.Model):
-    from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followed_user_relations',)
+    from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following_user_relations', )
     to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='follower_relations')
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Relation (from:{self.from_user.username}, to:{self.to_user.username})'
