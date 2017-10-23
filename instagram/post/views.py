@@ -1,6 +1,7 @@
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404, redirect
 
+from member.decorators import login_required
 from .forms import PostForm, CommentForm
 from .models import Post, PostComment
 
@@ -25,6 +26,7 @@ def post_detail(request, post_pk):
     return render(request, 'post/post_detail.html', context)
 
 
+@login_required
 def post_create(request):
     if not request.user.is_authenticated:
         return redirect('member:login')
@@ -59,6 +61,26 @@ def post_delete(request, post_pk):
             return redirect('post:post_list')
         else:
             raise PermissionDenied
+
+
+@login_required
+def post_like_toggle(request, post_pk):
+    next_path = request.GET.get('next')
+
+    post = get_object_or_404(Post, pk=post_pk)
+
+    user = request.user
+
+    filtered_like_posts = user.like_posts.filter(pk=post_pk)
+    if filtered_like_posts.exists():
+        user.like_posts.remove(post)
+
+    else:
+        user.like_posts.add(post)
+
+    if next_path:
+        return redirect(next_path)
+    return redirect('post:post_detail', post_pk=post_pk)
 
 
 def comment_create(request, post_pk):

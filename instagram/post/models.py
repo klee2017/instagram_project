@@ -17,6 +17,9 @@ class Post(models.Model):
     class Meta:
         ordering = ['-created_at']
 
+    def __str__(self):
+        return f'Post (PK: {self.pk})'
+
 
 class PostComment(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)

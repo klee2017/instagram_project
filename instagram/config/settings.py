@@ -51,6 +51,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'member.User'
+LOGIN_URL = 'member:login'
 
 # Application definition
 
