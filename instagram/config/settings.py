@@ -31,7 +31,6 @@ STATICFILES_DIRS = [
 
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 
-
 f = open(os.path.join(CONFIG_SECRET_DIR, 'settings_common.json'))
 config_secret_common_str = f.read()
 f.close()
@@ -48,7 +47,11 @@ SECRET_KEY = config_secret_common["django"]["secret_key"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '.ap-northeast-2.compute.amazonaws.com',
+    '.locomoco.co.kr',
+]
 
 AUTH_USER_MODEL = 'member.User'
 LOGIN_URL = 'member:login'
@@ -66,6 +69,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'post',
     'member',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

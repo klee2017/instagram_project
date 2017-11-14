@@ -21,6 +21,7 @@ from django.contrib import admin
 from .views import index
 from member import views as member_views
 from post import views
+from post.apis import PostList
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -28,6 +29,8 @@ urlpatterns = [
     url(r'^$', index, name='index'),
     url(r'^post/', include('post.urls', namespace='post')),
     url(r'^member/', include('member.urls', namespace='member')),
+
+    url(r'^api/post/$', PostList.as_view(), name='api-post'),
 ]
 urlpatterns += static(
     settings.MEDIA_URL,
